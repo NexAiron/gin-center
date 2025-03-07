@@ -1,10 +1,14 @@
 # 开发环境配置
 
 app:
-  name: gin-center
-  version: 2.1.0
-  mode: dev
-  port: 8080
+  base:
+    name: gin-center
+    env: dev
+    port: 8080
+    log_level: debug
+  app:
+    version: 2.1.0
+    host: localhost
 
 database:
   driver: mysql

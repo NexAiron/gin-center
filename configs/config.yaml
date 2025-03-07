@@ -1,3 +1,13 @@
+app:
+  base:
+    name: gin-center
+    env: dev
+    port: 8080
+    log_level: debug
+  app:
+    version: 2.1.0
+    host: localhost
+
 # 服务器配置
 server:
   port: 8080
@@ -19,10 +29,10 @@ database:
   password: 123456
   dbname: gin_center
   charset: utf8mb4
-  parseTime: true
+  parse_time: true
   loc: Local
-  maxIdleConns: 10
-  maxOpenConns: 100
+  max_idle_conns: 10
+  max_open_conns: 100
 
 # Redis配置
 redis:
@@ -50,13 +60,11 @@ jwt:
 log:
   level: debug
   filename: ./logs/app.log
-  maxSize: 100    # 每个日志文件的最大大小（MB）
-  maxBackups: 10  # 保留的旧日志文件最大数量
-  maxAge: 7      # 保留的旧日志文件的最大天数
-  compress: true  # 是否压缩旧日志文件
-  # 请求日志配置
+  max_size: 100
+  max_backups: 10
+  max_age: 7
   request:
-    skip_paths: ["/health", "/metrics"]  # 不记录日志的路径
+    skip_paths: ["/health", "/metrics"]
     max_body_size: 1048576  # 记录请求体的最大大小（1MB）
     log_headers: true       # 是否记录请求头
     log_body: true         # 是否记录请求体
