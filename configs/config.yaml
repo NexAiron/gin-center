@@ -1,0 +1,68 @@
+# 服务器配置
+server:
+  port: 8080
+  mode: debug
+  cors:
+    allow_origins: ["*"]
+    allow_methods: ["GET", "POST", "PUT", "DELETE"]
+    allow_headers: ["Authorization", "Content-Type"]
+    expose_headers: ["Content-Length"]
+    allow_credentials: true
+    max_age: 86400
+
+# 数据库配置
+database:
+  driver: mysql
+  host: localhost
+  port: 3306
+  username: root
+  password: 123456
+  dbname: gin_center
+  charset: utf8mb4
+  parseTime: true
+  loc: Local
+  maxIdleConns: 10
+  maxOpenConns: 100
+
+# Redis配置
+redis:
+  host: localhost
+  port: 6379
+  password: ""
+  db: 0
+  pool_size: 100
+  min_idle_conns: 10
+  max_conn_age: 300s
+  idle_timeout: 60s
+  wait: true
+  max_retries: 3
+  min_retry_delay: 8ms
+  max_retry_delay: 512ms
+
+# JWT配置
+jwt:
+  secret: anysg_secret
+  expire: 24h # token过期时间
+  issuer: gin-center
+  RefreshWindow: 12h # token刷新时间窗口
+
+# 日志配置
+log:
+  level: debug
+  filename: ./logs/app.log
+  maxSize: 100    # 每个日志文件的最大大小（MB）
+  maxBackups: 10  # 保留的旧日志文件最大数量
+  maxAge: 7      # 保留的旧日志文件的最大天数
+  compress: true  # 是否压缩旧日志文件
+  # 请求日志配置
+  request:
+    skip_paths: ["/health", "/metrics"]  # 不记录日志的路径
+    max_body_size: 1048576  # 记录请求体的最大大小（1MB）
+    log_headers: true       # 是否记录请求头
+    log_body: true         # 是否记录请求体
+    log_response: true     # 是否记录响应体
+    sensitive_log: false   # 是否记录敏感信息
+  # 追踪配置
+  trace:
+    enabled: true          # 是否启用请求追踪
+    header_name: "X-Trace-ID"  # 追踪ID的请求头名称
