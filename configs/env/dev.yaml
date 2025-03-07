@@ -5,10 +5,9 @@ app:
     name: gin-center
     env: dev
     port: 8080
-    log_level: debug
-  app:
-    version: 2.1.0
-    host: localhost
+    logLevel: debug
+  version: 2.1.0
+  host: localhost
 
 database:
   driver: mysql

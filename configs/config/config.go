@@ -41,26 +41,6 @@ type BaseConfig struct {
 	LogLevel string `mapstructure:"log_level" validate:"required,oneof=debug info warn error"`
 }
 
-// AppConfig 应用程序配置，继承自BaseConfig
-type AppConfig struct {
-	BaseConfig
-	// App 应用核心配置
-	App struct {
-		// Version 应用版本号
-		Version string `mapstructure:"version" validate:"required"`
-		Host    string `mapstructure:"host" validate:"required"`
-	} `mapstructure:"app"`
-	// JWTSecret JWT签名密钥
-	JWTSecret string `mapstructure:"jwt_secret"`
-	// SuperAdmin 超级管理员账户
-	SuperAdmin string `mapstructure:"super_admin"`
-}
-
-// GetAppConfig 获取App配置
-func (c *AppConfig) GetAppConfig() *AppConfig {
-	return c
-}
-
 // DatabaseConfig 数据库配置
 type DatabaseConfig struct {
 	// Driver 数据库驱动名称
@@ -165,21 +145,26 @@ type ServerConfig struct {
 
 // GlobalConfig 应用程序总配置结构
 type GlobalConfig struct {
-	Logger *zap.Logger // 日志记录器
-	// mu 用于配置读写的互斥锁
-	mu sync.RWMutex
-	// App 应用基础配置
-	App AppConfig `mapstructure:"app"`
-	// Server HTTP服务器配置
-	Server ServerConfig `mapstructure:"server"`
-	// Database 数据库配置
-	Database DatabaseConfig `mapstructure:"database"`
-	// Redis Redis配置
-	Redis RedisConfig `mapstructure:"redis"`
-	// Log 日志配置
-	Log LogConfig `mapstructure:"log"`
-	// JWT JWT配置
-	JWT useJwt.JWTConfig `mapstructure:"jwt"`
+	Logger *zap.Logger
+	mu     sync.RWMutex
+
+	App      AppConfig        `mapstructure:"app"`
+	Server   ServerConfig     `mapstructure:"server"`
+	Database DatabaseConfig   `mapstructure:"database"`
+	Redis    RedisConfig      `mapstructure:"redis"`
+	Log      LogConfig        `mapstructure:"log"`
+	JWT      useJwt.JWTConfig `mapstructure:"jwt"`
+}
+
+// 调整AppConfig结构体映射方式
+type AppConfig struct {
+	Name       string `mapstructure:"name" validate:"required"`
+	Env        string `mapstructure:"env" validate:"required"`
+	Port       int    `mapstructure:"port" validate:"required"`
+	LogLevel   string `mapstructure:"log_level"`
+	Version    string `mapstructure:"version"`
+	Host       string `mapstructure:"host"`
+	SuperAdmin string `mapstructure:"super_admin"` // 新增超级管理员配置字段
 }
 
 // LoadConfig 加载应用程序配置

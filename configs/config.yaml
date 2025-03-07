@@ -1,12 +1,10 @@
 app:
-  base:
-    name: gin-center
-    env: dev
-    port: 8080
-    log_level: debug
-  app:
-    version: 2.1.0
-    host: localhost
+  name: "gin-center"
+  env: "development"
+  port: 8080
+  log_level: "debug"
+  version: "2.1.0"
+  host: "localhost"
 
 # 服务器配置
 server:

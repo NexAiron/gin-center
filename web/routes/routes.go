@@ -33,8 +33,8 @@ func SetupRoutes(r *gin.Engine, container *container.Container) {
 
 	// Swagger文档配置
 	docs.SwaggerInfo.Title = "Gin-Center API"
-	docs.SwaggerInfo.Version = (&config.AppConfig{}).GetAppConfig().App.Version
-	docs.SwaggerInfo.Host = (&config.AppConfig{}).GetAppConfig().App.Host
+	docs.SwaggerInfo.Version = config.GetConfig().App.Version
+	docs.SwaggerInfo.Host = config.GetConfig().App.Host
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// API v1 路由组
