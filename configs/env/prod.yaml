@@ -1,0 +1,39 @@
+# 生产环境配置
+
+app:
+  name: gin-center
+  mode: production
+  port: 8080
+
+db:
+  host: ${DB_HOST}
+  port: ${DB_PORT}
+  user: ${DB_USER}
+  password: ${DB_PASSWORD}
+  database: gin_center
+  max_idle_conns: 10
+  max_open_conns: 200
+  conn_max_lifetime: 3600
+
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+  password: ${REDIS_PASSWORD}
+  db: 0
+  pool_size: 200
+
+log:
+  level: info
+  filename: /var/log/gin-center/app.log
+  max_size: 100
+  max_age: 30
+  max_backups: 30
+
+jwt:
+  secret: ${JWT_SECRET}
+  expire_hours: 12
+
+rate_limit:
+  enable: true
+  requests: 50
+  duration: 60
