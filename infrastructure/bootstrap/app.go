@@ -4,11 +4,9 @@ import (
 	"context"
 	"fmt"
 	"gin-center/configs/config"
-	use_config "gin-center/configs/config"
 	"gin-center/infrastructure/container"
 	zaplogger "gin-center/infrastructure/zaplogger"
 	use_http "gin-center/pkg/http/http"
-	use_tracer "gin-center/pkg/tracer"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,13 +21,13 @@ import (
 
 // App 应用程序的核心结构体，包含所有主要组件
 type App struct {
-	Context   context.Context          // 应用程序的上下文，用于控制生命周期
-	Config    *use_config.GlobalConfig // 应用程序配置
-	Container *container.Container     // 依赖注入容器
-	Server    use_http.HTTPServer      // HTTP服务器实例
-	Engine    *gin.Engine              // Gin引擎实例
-	cancel    context.CancelFunc       // 用于取消上下文的函数
-	once      sync.Once                // 确保Close方法只执行一次的同步原语
+	Context   context.Context      // 应用程序的上下文，用于控制生命周期
+	Config    *config.GlobalConfig // 应用程序配置
+	Container *container.Container // 依赖注入容器
+	Server    use_http.HTTPServer  // HTTP服务器实例
+	Engine    *gin.Engine          // Gin引擎实例
+	cancel    context.CancelFunc   // 用于取消上下文的函数
+	once      sync.Once            // 确保Close方法只执行一次的同步原语
 }
 
 // InitializeApp 初始化并返回一个新的应用程序实例
@@ -55,12 +53,6 @@ func InitializeApp() (*App, error) {
 	if err != nil {
 		cancel()
 		return nil, fmt.Errorf("初始化容器失败: %w", err)
-	}
-
-	// 初始化链路追踪
-	if err := use_tracer.InitTracer(cfg.App.Name); err != nil {
-		cancel()
-		return nil, fmt.Errorf("初始化链路追踪失败: %w", err)
 	}
 
 	// 初始化Gin引擎
@@ -90,8 +82,8 @@ func InitializeApp() (*App, error) {
 
 // loadConfig 加载应用程序配置
 // 从指定的配置目录加载配置文件，并返回解析后的配置对象
-func loadConfig() (*use_config.GlobalConfig, error) {
-	cfg, err := use_config.LoadConfig("configs")
+func loadConfig() (*config.GlobalConfig, error) {
+	cfg, err := config.LoadConfig("configs")
 	if err != nil {
 		return nil, fmt.Errorf("加载配置文件失败: %w", err)
 	}

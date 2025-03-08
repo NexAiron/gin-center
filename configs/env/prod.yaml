@@ -2,15 +2,23 @@
 
 app:
   name: gin-center
-  mode: production
+  env: production
   port: 8080
+  logLevel: info
 
-db:
+database:
+  driver: mysql
   host: ${DB_HOST}
   port: ${DB_PORT}
-  user: ${DB_USER}
+  username: ${DB_USER}
   password: ${DB_PASSWORD}
-  database: gin_center
+  dbName: gin_center
+  charset: utf8mb4
+  parse_time: true
+  loc: Local
+  charset: utf8mb4
+  parse_time: true
+  loc: Local
   max_idle_conns: 10
   max_open_conns: 200
   conn_max_lifetime: 3600
@@ -21,6 +29,11 @@ redis:
   password: ${REDIS_PASSWORD}
   db: 0
   pool_size: 200
+  min_idle_conns: 10
+  max_conn_age: 300s
+  idle_timeout: 60s
+  wait: true
+  max_retries: 3
 
 log:
   level: info

@@ -1,11 +1,10 @@
 # 开发环境配置
 
 app:
-  base:
-    name: gin-center
-    env: dev
-    port: 8080
-    logLevel: debug
+  name: gin-center
+  env: dev
+  port: 8080
+  logLevel: debug
   version: 2.1.0
   host: localhost
 
@@ -15,7 +14,8 @@ database:
   port: 3306
   username: root
   password: 123456
-  database: gin_center
+  dbName: gin_center
+  charset: utf8mb4
   max_idle_conns: 10
   max_open_conns: 100
   conn_max_lifetime: 3600
@@ -29,11 +29,21 @@ redis:
 
 log:
   level: debug
-  path: h:/Project/gin-center/logs
-  filename: h:/Project/gin-center/logs/app.log
+  filename: ./logs/app.log
   max_size: 100
   max_age: 7
   max_backups: 10
+  compress: true
+  request:
+    skip_paths: ["/health", "/metrics"]
+    max_body_size: 1048576
+    log_headers: true
+    log_body: true
+    log_response: true
+    sensitive_log: false
+  trace:
+    enabled: true
+    header_name: "X-Trace-ID"
 
 server:
   port: 8080
@@ -42,8 +52,7 @@ jwt:
   secret: anysg_secret
   expire: 24h
   issuer: gin-center
-  refresh_threshold: 0.5
-  refresh_window: 12h
+  RefreshWindow: 12h
 
 rate_limit:
   enable: true

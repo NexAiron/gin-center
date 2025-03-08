@@ -204,9 +204,13 @@ func LoadConfig(configPath string) (*GlobalConfig, error) {
 // initViperConfig 初始化Viper配置管理器
 // configPath: 配置文件所在目录路径
 func initViperConfig(configPath string) error {
-	viper.SetConfigName("config")
+	env := os.Getenv("ENV")
+	if env == "" {
+		env = "dev"
+	}
+	viper.SetConfigName(env)
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(configPath)
+	viper.AddConfigPath(filepath.Join(configPath, "env"))
 	viper.SetEnvPrefix("APP")
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))

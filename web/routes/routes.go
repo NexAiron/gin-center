@@ -3,7 +3,6 @@
 package use_routes
 
 import (
-	"gin-center/configs/config"
 	"gin-center/infrastructure/container"
 	"gin-center/infrastructure/zaplogger"
 	admin_controller "gin-center/web/controller/admin"
@@ -11,10 +10,11 @@ import (
 	user_controller "gin-center/web/controller/user"
 	use_AuthMiddleware "gin-center/web/middleware/auth"
 
+	"gin-center/docs"
+
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/swag/example/override/docs"
 )
 
 // SetupRoutes 配置应用程序的所有路由
@@ -33,8 +33,8 @@ func SetupRoutes(r *gin.Engine, container *container.Container) {
 
 	// Swagger文档配置
 	docs.SwaggerInfo.Title = "Gin-Center API"
-	docs.SwaggerInfo.Version = config.GetConfig().App.Version
-	docs.SwaggerInfo.Host = config.GetConfig().App.Host
+	docs.SwaggerInfo.Version = "1.0.0"
+	docs.SwaggerInfo.Host = "localhost:8080"
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// API v1 路由组
